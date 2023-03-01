@@ -2,13 +2,14 @@ const express = require("express")
 const mongoose = require("mongoose");
 const newuser = require("./model/user")
 const bodyParsar = require("body-parser")
-
+const { json } = require("express");
 
 mongoose.set('strictQuery', false);
 const url = "mongodb://127.0.0.1:27017";
 const app = express()
 app.use(express.static("public"))
 app.use(bodyParsar.urlencoded({extended: false}));
+app.set('view engine','ejs');
 
 mongoose.connect(url, {useNewUrlParser: true})
 .then(()=>console.log("connected.."))
@@ -25,7 +26,10 @@ async function finduser() {
 //ddnewuser()
 
 app.get('/', function(req, res) {
-    res.sendFile('index.html', { root: __dirname });
+    // res.sendFile('index.html', { root: __dirname });
+    res.render('index',{data :{name : null}})
+                    
+
 });
 
 app.listen("8000",()=>{
@@ -45,38 +49,90 @@ app.get('/signup', function(req, res) {
     res.sendFile('signup.html', { root: __dirname });
 });
 
+app.get('/profile', function(req, res) {
+    res.render('profile')
+                    
+});
 //add user db
 app.post("/index",function(req,res){
     const FullNamername = req.body.FullName;
     const email = req.body.email;
-    const username = req.body.username;
+    var username = req.body.username;
     const passward = req.body.password;
     console.log(FullNamername + " " + email  + " " +username  + " " + passward)
     newuser.create({fullname:FullNamername,email:email,username:username,passward:passward})
     res.sendFile("index.html", { root: __dirname })
+    
 
 })
 
 //login user
 
 async function login(name,password,res){
-    try{
+    newuser.findOne({username:name,passward:password},(err,user1)=>{
+        if (err) {throw(err)}
         
-        const user1 = await newuser.find({username:name,passward:password})
-        console.log(user1)
-        //how to check user have value or no values
-        if(user1=== null || user1===[]){
-            console.log("No user")
-            res.sendFile("index.html", { root: __dirname })
-            
-        }else{
-            console.log("login successfull..")
-            res.sendFile("profile.html", { root: __dirname })
-        }
+        try{
+                if(user1 != null){
+                    console.log("login successfull..")
+                    res.render('profile',{data :{name : user1.fullname,email:user1.email,id:user1._id}})
+                    // res.sendFile("profile.html", { root: __dirname })
+                    console.log(user1._id)
         
-    }catch(err){
-        console.log(err)
-    }
+                    
+                }else{
+                    console.log("No user")
+                    res.render('index',{data :{name : "no user"}})
+                    
+                    // res.sendFile("index.html", { root: __dirname })
+                }
+                
+            }catch(err){
+                console.log(err)
+            }
+        
+    })
 
+    
 }
 
+//edit page
+app.post("/edit",function(req,res){
+    const id = req.body.btn
+    
+    newuser.findById(id,(err,user1)=>{
+        if (!err) {
+            res.render('edit',{data :{name : user1.fullname,email:user1.email,id:user1._id}})
+        }
+    })
+    // 
+                    
+    
+})
+
+app.post("/editprofile",function(req,res){
+    const id = req.body.btn
+    const name = req.body.name
+    const email = req.body.email
+    console.log(name,email)
+    newuser.findByIdAndUpdate(id,{fullname:name,email:email},function(err){
+        newuser.findById(id,(err,user1)=>{
+            if (!err) {
+                res.render('profile',{data :{name : user1.fullname,email:user1.email,id:user1._id}})
+            }
+        })
+        
+    })
+    //
+})
+
+app.get('/sign-out', (req, res) => {
+    console.log("this is signout page");
+    // req.session.destroy((err) => {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     res.redirect('/');
+    //   }
+    // });
+  });

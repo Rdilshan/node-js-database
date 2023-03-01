@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="css/profile.css">
+  </head>
+  
+  <body>
+    <form method="post"  action="/edit"> 
+    <div class="profile">
+      <h2>Welcome</h2>
+      <p>Name: <%= data.name %> </p>
+      <p>Email: <%= data.email %></p>
+      <button type="submit" name="btn"value= <%= data.id %> >edit</button>
+      <a href="/sign-out"><button>Sign Out</button></a>
+    </div>
+  </form>
+  </body>
+</html>
