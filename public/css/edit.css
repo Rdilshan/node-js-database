@@ -43,7 +43,7 @@ body {
   background-color: #45a049;
 }
 
-input[type="submit"] {
+button[type="submit"] {
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;

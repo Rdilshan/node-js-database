@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Form</title>
+    <link rel="stylesheet" href="./css/index.css">
+  </head>
+  <body>
+    <form method="post" action="/profile">
+      <h2>Login Form</h2>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <p style="color: red; text-align: center;"><%= data.name %></p>
+      <input type="submit" value="Login">
+      <div class="signup-link">Don't have an account? <a href="/signup">Sign up</a></div>
+    </form>
+  </body>
+</html>
