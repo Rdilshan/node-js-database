@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sign Up Form</title>
+    <link rel="stylesheet" href="css/edit.css">
+  </head>
+  
+  <body>
+
+    <form class="signup" method="post" action="/profile">
+      <h2>Edit</h2>
+      <input type="text" placeholder=<%= fullname %> name="fullname">
+      <input type="email" placeholder=<%= email %> name = "email">
+      
+      <div class="btn">
+        <button type="submit" class="submit" value= <%= id %> name="btn">Save Changes</button>
+        
+        <a href="#" class ="btncansel" onclick="history.back()">Cancel</a>
+      </div>
+    </form>
+  </body>
+</html>
