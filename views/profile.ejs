@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="css/profile.css">
+  </head>
+  
+  <body>
+    
+    <div class="profile" >
+      <h2>Welcome</h2>
+      <form method="POST" action="/edit">
+        <p>Name: <%= fullname %></p>
+        <p>Email: <%= email %></p>
+        <button type="submit" value= <%= id %> name="btn" >Edit</button>
+      </form>
+      <form  method="POST"  action="/index">
+        <button type="submit">Sign Out</button>
+      </form>
+    </div>
+  
+  </body>
+</html>
